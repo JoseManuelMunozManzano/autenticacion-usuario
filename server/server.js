@@ -1,5 +1,4 @@
 require('./config/config');
-const { DB_URL } = require('./config/mongoDBConexion');
 
 const express = require('express');
 const mongoose = require('mongoose');
@@ -16,8 +15,10 @@ app.use(bodyParser.json());
 
 app.use(require('./routes/usuario'));
 
+console.log(process.env.DB_URL);
+
 mongoose
-  .connect(DB_URL, {
+  .connect(process.env.DB_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
