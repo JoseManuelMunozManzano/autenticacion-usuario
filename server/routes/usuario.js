@@ -10,12 +10,12 @@ app.get('/usuario', function (req, res) {
   const limite = +req.query.limite || 5;
 
   // Sólo usuarios activos
-  Usuario.find({estado: true}, 'nombre email role estado google img')
+  Usuario.find({ estado: true }, 'nombre email role estado google img')
     .skip(desde)
     .limit(limite)
     .exec()
     .then(async usuarios => {
-      const conteo = await Usuario.countDocuments({estado: true});
+      const conteo = await Usuario.countDocuments({ estado: true });
       res.json({
         ok: true,
         usuarios,
@@ -36,6 +36,7 @@ app.post('/usuario', function (req, res) {
   const usuario = new Usuario({
     nombre: persona.nombre,
     email: persona.email,
+    // Encriptación de una sola vía
     password: bcrypt.hashSync(persona.password, 10),
     role: persona.role,
   });
@@ -81,7 +82,6 @@ app.put('/usuario/:id', function (req, res) {
 });
 
 app.delete('/usuario/:id', function (req, res) {
-  // 2. Borrar un registro logicamente, cambiando el estado a false
   const id = req.params.id;
 
   Usuario.findByIdAndUpdate(id, { estado: false }, { new: true })
