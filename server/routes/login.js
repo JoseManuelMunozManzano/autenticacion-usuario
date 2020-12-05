@@ -32,11 +32,9 @@ app.post('/login', (req, res) => {
         });
       }
 
-      const token = jwt.sign(
-        { usuario: usuarioDB },
-        'este-es-el-seed-desarrollo',
-        { expiresIn: process.env.CADUCIDAD_TOKEN }
-      );
+      const token = jwt.sign({ usuario: usuarioDB }, process.env.SEED, {
+        expiresIn: process.env.CADUCIDAD_TOKEN,
+      });
 
       res.json({
         ok: true,

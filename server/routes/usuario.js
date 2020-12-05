@@ -1,11 +1,15 @@
 const express = require('express');
+
 const bcrypt = require('bcrypt');
 const _ = require('underscore');
+
 const Usuario = require('../models/usuario');
+const { verificaToken } = require('../middlewares/autenticacion');
 
 const app = express();
 
-app.get('/usuario', function (req, res) {
+// Usando el middleware para recuperar el valor token del header.
+app.get('/usuario', verificaToken, (req, res) => {
   const desde = +req.query.desde || 0;
   const limite = +req.query.limite || 5;
 
